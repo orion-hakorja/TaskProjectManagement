@@ -1,0 +1,96 @@
+﻿@model IEnumerable<TaskProjectOrion.Models.Task>
+
+@{
+    ViewData["Title"] = "Manage Tasks";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">Manage Tasks</h2>
+            <p class="text-muted mb-0">Overview of all tasks in the system.</p>
+        </div>
+
+        <div>
+            <span class="badge bg-primary fs-6">
+                Total Tasks: @Model.Count()
+            </span>
+        </div>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+
+        <a asp-controller="Task"
+           asp-action="Create"
+           class="btn btn-primary">
+            <i class="fa-solid fa-plus me-2"></i>
+            Create Task
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr class="text-muted">
+                                <th>Task ID</th>
+                                <th>Project</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Assigned Users</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var task in Model)
+                            {
+                                <tr>
+                                    <td>@task.Id</td>
+                                    <td>@task.Project.Name</td>
+                                    <td class="fw-semibold">@task.Title</td>
+                                    <td>@task.Description</td>
+                                    <td>
+                                        @if (task.Users != null && task.Users.Any())
+                                        {
+                                            @foreach (var user in task.Users)
+                                            {
+                                                <span class="badge bg-light text-dark border me-1">
+                                                    @(user.FullName ?? user.UserName)
+                                                </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No users assigned</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-primary-subtle text-primary">
+                                            @task.status
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-warning-subtle text-warning-emphasis">
+                                            @task.priority
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fa-solid fa-list-check fa-3x text-muted mb-3"></i>
+                    <h5>No tasks found</h5>
+                    <p class="text-muted">There are currently no tasks in the system.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<TaskProjectOrion.Models.Task>
+
+@{
+    ViewData["Title"] = "My Tasks";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">My Tasks</h2>
+            <p class="text-muted mb-0">View all tasks assigned to you.</p>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr class="text-muted">
+                                <th>Task ID</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var task in Model)
+                            {
+                                <tr>
+                                    <td>@task.Id</td>
+                                    <td class="fw-semibold">@task.Title</td>
+                                    <td>@task.Description</td>
+                                    <td>
+                                        <span class="badge bg-primary-subtle text-primary">
+                                            @task.status
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-warning-subtle text-warning-emphasis">
+                                            @task.priority
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fa-solid fa-clipboard-list fa-3x text-muted mb-3"></i>
+                    <h5>No tasks assigned</h5>
+                    <p class="text-muted mb-0">
+                        You don't have any tasks assigned to you yet.
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
